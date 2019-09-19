@@ -1,0 +1,100 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <title>HOME BANKING</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/homebanking.js"></script>
+  <script src = " https://unpkg.com/sweetalert/dist/sweetalert.min.js " ></script> 
+<body>
+  <div class="header">
+    <img class="logo" src="img/logo.png" />
+    <div class="align-left">
+      <span id="nombre">Bienvenido/a</span>
+      <img class="avatar" src="img/avatar.svg" />
+    </div>
+  </div>
+  <div class="white-container">
+    <div class="menu-container">
+      <h1 class="tu-cuenta">Tu cuenta</h1>
+      <button class="links" onclick="operation('extraer')">Extraer dinero</button>
+      <button class="links" onclick="operation('depositar')">Depositar dinero</button>
+      <button class="links" onclick="operation('servicio')">Pagar servicios</button>
+      <button class="links" onclick="operation('tranferir')">Transferir dinero</button>
+      <button class="links" onclick="operation('limite-extracion')">Cambiar límite de extracción</button>
+    </div>
+    <div class="green-container">
+      <div class="cuenta-info">
+        <p>Saldo en tu cuenta</p>
+        <h3 id="saldo-cuenta">$</h3>
+        <p id="limite-extraccion">Tu límite de extracción es: </p>
+      </div>
+    </div>
+  </div>
+
+  <!--Templates-->
+  <div id="operation-dialog" class="dialog-modal-container">
+    <div class="dialog-modal animate-top">
+      <header>
+        <span id="close-dialog" onclick="closeDialog()">&times;</span>
+        <div class="container-title">
+          <h3 id="operation-dialog-title">Modal</h3>
+        </div>
+      </header>
+      <div id="operation-dialog-body">
+
+      </div>
+      <footer>
+        <button id="operation-acept-button">Aceptar</button>
+        <button id="operation-cancel-button" onclick="closeDialog()">Cancelar</button>
+      </footer>
+    </div>
+  </div>
+
+  <!--Extraer Template Form-->
+  <div id="extraer-template-form" class="hidden-template">
+      <p>Cuanto dinero quieres extraer?</p> 
+      <input type="text" id="input-extract-amount"/>
+  </div>
+   <!--Depositar Template Form-->
+  <div id="depositar-template-form" class="hidden-template">
+      <p>Cuanto dinero quieres depositar?</p> 
+      <input type="text" id="input-depositar-amount"/>
+  </div>
+   <!--servicios Template Form-->
+   <div id="servicio-template-form" class="hidden-template">
+      <p>Que servicio quieres pagar?</p> 
+      <input type="radio" name ="servicio" value ="Edesur">Edesur<br>
+      <input type="radio" name ="servicio" value ="Metrogas">Metrogas<br>
+      <input type="radio" name ="servicio" value ="internet">Internet<br>
+      <input type="radio" name ="servicio" value ="ABL">ABL
+  </div>
+  <!--pagar Servicios Template Form-->
+  <div id="pagar-template-form" class="hidden-template">
+      <p>Monto a pagar?</p> 
+      <input type="text" id="input-pagar-amount"/>
+  </div>
+   <!--pagar transferencia Template Form-->
+   <div id="transferir-template-form" class="hidden-template">
+     <P>cuenta a transferir</P>
+     <input type="text" id="input-cuenta-amount">
+     <p>Monto:</p>
+      <input type="text" id="input-tranferir-amount"><br>
+      <p>Mis agregados</p>
+      <select id="opciones-transferir-form"><br>
+          <option value="e"></option>
+          <option value="">Maria Colmenares: cta: 128399330</option>
+          <option value="">Luis Ramirez: cta: 83993300045</option>
+          <option value="">Ester Colmenares: cta: 128399330</option>
+        </select>
+  </div>
+   <!--cambio limite Template Form-->
+   <div id="cambiar-limite-template-form" class="hidden-template">
+      <p>nuevo Monto a cambiar?</p> 
+      <input type="text" id="input-limite-amount"/>
+  </div>
+</body>
+
+</html>
