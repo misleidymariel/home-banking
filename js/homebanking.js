@@ -1,8 +1,26 @@
 //Declaración de variables
-var nombreUsuario= sessionStorage.getItem("nombreUsuario");;
+var cuenta = {
+    nombre: "misleidy",
+    contrasena: "12345qwe",
+    amigos:[
+        {
+            numeroCta:"12345600",
+            nombre:"alex ventura"
+
+        },
+        {
+            numeroCta:"7890463",
+            nombre:"Mariely Espinoza"
+
+        },
+    ]
+}
+var nombreUsuario= cuenta.nombre;
 var contrasena = "";
 var saldoCuenta = 8000;
 var limiteExtraccion = 5000;
+var servicioAPagar = '';
+
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML.
 window.onload = function() {
@@ -26,9 +44,28 @@ function operation(operationType) {
 function iniciarSesion() {
     nombreUsuario = document.getElementById('usuarioSesion').value;
     contrasena =  document.getElementById('usuarioContrasena').value;
-    sessionStorage.setItem("nombreUsuario", nombreUsuario);
-    window.location.href ="index.html";
-  
+    
+    if (nombreUsuario === cuenta.nombre && contrasena===cuenta.contrasena) {
+
+        swal({
+            title: "Bienvenido ",
+            text: "Bienvenido " + nombreUsuario + " ya puedes comenzar a realizar operaciones. ",
+        }).then(() => {
+            window.location.href ="index.html";
+
+            actualizarSaldoEnPantalla();
+
+            closeDialog();
+
+        });
+    } else {
+
+        swal({
+            title: "Cuenta incorrecta ",
+            text: " " + nombreUsuario + " ya puedes comenzar a realizar operaciones. ",
+        });
+    }
+ 
 }
 
 function extraerDineroVista() {
@@ -55,7 +92,7 @@ function pagarServicioVista() {
 }
 
 function pagarServicioItemVista(){
-    var servicioAPagar = document.querySelector('input[name="servicio"]:checked').value;
+    servicioAPagar = document.querySelector('input[name="servicio"]:checked').value;
     var pagarForm = document.getElementById('pagar-template-form').innerHTML;
     document.getElementById('operation-dialog-title').innerHTML = "Pagar Servicio " + servicioAPagar;
     document.getElementById('operation-dialog-body').innerHTML = pagarForm;
@@ -75,7 +112,9 @@ function cambiarLimiteDeExtraccionVista(){
 /*funcion que carga el template dialogo de tranferir dinero*/
 function transferirDineroVista(){
     document.getElementById('operation-dialog-title').innerHTML = "Tranferir Dinero";
+    document.getElementById('amigos-cuenta').innerHTML = cuenta.amigos.map(it => it.nombre +" "+ it.numeroCta);
     var transferirForm = document.getElementById('transferir-template-form').innerHTML;
+    
     document.getElementById('operation-dialog-body').innerHTML = transferirForm;
     document.getElementById('operation-acept-button').firstChild.data = "Aceptar";
     document.getElementById('operation-acept-button').onclick = transferirDinero;
@@ -102,11 +141,18 @@ function extraerDinero() {
     //fin validaciones
 
     //Operacion
+    var saldoAnterior = saldoCuenta;
     saldoCuenta = saldoCuenta - montoRetiro;
 
     actualizarSaldoEnPantalla();
 
     closeDialog();
+
+    swal({
+        title: "Extracion exitosa",
+        text:"Monto Extraccion: $ "  + montoRetiro + '\n' + "Saldo anterior: $ "  +  saldoAnterior   + '\n' + "Saldo actual: $ " + saldoCuenta,
+        icon: "success",
+      });
 }
 
 function depositarDinero() {
@@ -114,9 +160,18 @@ function depositarDinero() {
     montoDeposito = parseInt(montoDeposito);
     saldoCuenta = saldoCuenta + montoDeposito;
 
+
+    saldoAnterior = saldoCuenta;
+    saldoCuenta = saldoCuenta + montoDeposito;
+
     actualizarSaldoEnPantalla();
 
     closeDialog();
+    swal({
+        title: "Operacion exitosa",
+        text:"Monto deposito: $ "  + montoDeposito + '\n' + "Saldo anterior: $ "  +  saldoAnterior   + '\n' + "Saldo actual: $ " + saldoCuenta,
+        icon: "success",
+      });
 }
 
 function pagarServicio() {
@@ -124,19 +179,40 @@ function pagarServicio() {
     montoServicio = parseInt(montoServicio);
     saldoCuenta = saldoCuenta - montoServicio;
 
+
+    saldoAnterior = saldoCuenta;
+    saldoCuenta = saldoCuenta - montoServicio;
+
     actualizarSaldoEnPantalla();
 
     closeDialog();
+
+    swal({
+        title: "Pago Exitoso",
+        text:" Servicio " +  servicioAPagar + " : " + " $ " + montoServicio  + '\n' + "Saldo anterior: $ "  +  saldoAnterior   + '\n' + "Saldo actual: $ " + saldoCuenta,
+        icon: "success",
+      });
 }
+
 
 function transferirDinero() {
     var montoTransferir = document.getElementById('input-tranferir-amount').value;
+    
     montoTransferir = parseInt(montoTransferir);
+    saldoCuenta = saldoCuenta - montoTransferir;
+
+    saldoAnterior = saldoCuenta;
     saldoCuenta = saldoCuenta - montoTransferir;
 
     actualizarSaldoEnPantalla();
 
     closeDialog();
+
+    swal({
+        title: "Pago Exitoso",
+        text:"Monto transferir: $ "  + montoTransferir + '\n' + "Saldo anterior: $ "  +  saldoAnterior   + '\n' + "Saldo actual: $ " + saldoCuenta,
+        icon: "success",
+      });
    
 }
 function cambiarLimiteDeExtraccion() {
@@ -148,6 +224,12 @@ function cambiarLimiteDeExtraccion() {
     actualizarLimiteEnPantalla();
 
     closeDialog();
+
+    swal({
+        title: "Operacion exitosa",
+        text:"Nuevo limite de extracion: $ " + montoLimite,
+        icon: "success",
+      });
 
 }
 

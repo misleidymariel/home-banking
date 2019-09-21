@@ -7,7 +7,7 @@
   <title>HOME BANKING</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="js/homebanking.js"></script>
-  <script src = " https://unpkg.com/sweetalert/dist/sweetalert.min.js " ></script> 
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <body>
   <div class="header">
     <img class="logo" src="img/logo.png" />
@@ -78,17 +78,13 @@
   </div>
    <!--pagar transferencia Template Form-->
    <div id="transferir-template-form" class="hidden-template">
-     <P>cuenta a transferir</P>
-     <input type="text" id="input-cuenta-amount">
      <p>Monto:</p>
       <input type="text" id="input-tranferir-amount"><br>
-      <p>Mis agregados</p>
-      <select id="opciones-transferir-form"><br>
-          <option value="e"></option>
-          <option value="">Maria Colmenares: cta: 128399330</option>
-          <option value="">Luis Ramirez: cta: 83993300045</option>
-          <option value="">Ester Colmenares: cta: 128399330</option>
-        </select>
+     <P>cuenta a transferir</P>
+     <input type="text" id="input-cuenta-amount">
+      <p>Mis agregados:</p>
+      <p id="amigos-cuenta"></p>
+     
   </div>
    <!--cambio limite Template Form-->
    <div id="cambiar-limite-template-form" class="hidden-template">
