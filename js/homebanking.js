@@ -177,11 +177,19 @@ function depositarDinero() {
 function pagarServicio() {
     var montoServicio = document.getElementById('input-pagar-amount').value;
     montoServicio = parseInt(montoServicio);
-    saldoCuenta = saldoCuenta - montoServicio;
 
+    if(montoServicio > saldoCuenta){
+         swal({
+            title: "Error de transferencia",
+            text:"No tienes disponible ese dinero",
+            icon: "error",
+            });
+            return;
+    };
 
     saldoAnterior = saldoCuenta;
     saldoCuenta = saldoCuenta - montoServicio;
+
 
     actualizarSaldoEnPantalla();
 
@@ -197,20 +205,42 @@ function pagarServicio() {
 
 function transferirDinero() {
     var montoTransferir = document.getElementById('input-tranferir-amount').value;
-    
+    var cuentaTransferir = document.getElementById("input-tranferir-cuenta").value;
     montoTransferir = parseInt(montoTransferir);
-    saldoCuenta = saldoCuenta - montoTransferir;
+
+    var ctaAmigo = cuenta.amigos.filter(function(amigo){
+        return amigo.numeroCta == cuentaTransferir;
+    });
+
+    if(ctaAmigo.length == 0){
+        swal({
+            title: "Error de transferencia",
+            text:"solo puedes transferir a cuentas agregadas",
+            icon: "error",
+          });
+        return;
+    }
+
+    if(montoTransferir > saldoCuenta){
+        swal({
+            title: "Error de transferencia",
+            text:"No tienes disponible ese dinero",
+            icon: "error",
+          });
+        return;
+    }
 
     saldoAnterior = saldoCuenta;
     saldoCuenta = saldoCuenta - montoTransferir;
 
+    
     actualizarSaldoEnPantalla();
 
     closeDialog();
 
     swal({
         title: "Pago Exitoso",
-        text:"Monto transferir: $ "  + montoTransferir + '\n' + "Saldo anterior: $ "  +  saldoAnterior   + '\n' + "Saldo actual: $ " + saldoCuenta,
+        text:"Monto transferir: $ "  + montoTransferir + '\n' + "transferirtes a : " + ctaAmigo[0].nombre + '\n' + "numero de cuenta: " + ctaAmigo[0].numeroCta,
         icon: "success",
       });
    
